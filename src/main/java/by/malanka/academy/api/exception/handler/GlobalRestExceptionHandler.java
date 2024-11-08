@@ -1,7 +1,6 @@
 package by.malanka.academy.api.exception.handler;
 
 import by.malanka.academy.exception.ResourceNotFoundException;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;

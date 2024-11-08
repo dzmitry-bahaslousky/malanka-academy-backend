@@ -99,7 +99,6 @@ class CourseServiceTest {
                 .id(UUID.randomUUID())
                 .title("title")
                 .description("description")
-                .topics(List.of())
                 .build();
     }
 
