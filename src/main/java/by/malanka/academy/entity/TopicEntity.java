@@ -8,6 +8,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -35,6 +36,7 @@ public class TopicEntity extends BaseEntity<UUID> {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private CourseEntity course;
 
+    @Builder.Default
     @OrderBy("orderId")
     @OneToMany(mappedBy = "topic")
     private List<TopicItemEntity> items = new ArrayList<>();

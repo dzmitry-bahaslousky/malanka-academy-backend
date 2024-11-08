@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,7 @@ public class CourseEntity extends AuditEntity<UUID> {
     @Column(name = "description")
     private String description;
 
+    @Builder.Default
     @OrderBy("orderId")
     @OneToMany(mappedBy = "course")
     private List<TopicEntity> topics = new ArrayList<>();
