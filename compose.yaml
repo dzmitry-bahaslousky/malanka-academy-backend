@@ -1,4 +1,4 @@
-# version param is deprecated
+# version property is deprecated
 name: malanka-academy
 
 services:

@@ -1,11 +1,10 @@
-package by.malanka.academy.integration.service;
+package by.malanka.academy.service;
 
 import by.malanka.academy.dto.PageWrapper;
 import by.malanka.academy.dto.course.CourseDetailsDto;
 import by.malanka.academy.dto.course.CoursePreviewDto;
 import by.malanka.academy.exception.ResourceNotFoundException;
-import by.malanka.academy.integration.AbstractIntegrationTest;
-import by.malanka.academy.service.CourseService;
+import by.malanka.academy.AbstractIntegrationTest;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

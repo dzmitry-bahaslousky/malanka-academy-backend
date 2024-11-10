@@ -1,4 +1,4 @@
-package by.malanka.academy.integration;
+package by.malanka.academy;
 
 import org.springframework.boot.test.context.TestConfiguration;
 

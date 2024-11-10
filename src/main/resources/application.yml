@@ -10,3 +10,16 @@ spring:
     hibernate:
       ddl-auto: validate
     open-in-view: false
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          public-key-location: classpath:jwt/public-key.pem
+
+application:
+  security:
+    access-token:
+      expiry-in-seconds: ${ACCESS_TOKEN_EXPIRY:300}
+    private-key: ${RSA_PRIVATE_KEY}
