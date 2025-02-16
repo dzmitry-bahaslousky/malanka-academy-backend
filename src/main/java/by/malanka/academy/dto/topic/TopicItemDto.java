@@ -1,4 +1,4 @@
 package by.malanka.academy.dto.topic;
 
-public record TopicItemDto(String id, String title) {
+public record TopicItemDto(String id, String title, String type) {
 }

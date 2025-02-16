@@ -21,20 +21,36 @@ VALUES ('topic 1', 1,
         (SELECT id FROM users WHERE username = 'jcoldsun'),
         (SELECT id FROM users WHERE username = 'jcoldsun'));
 
-INSERT INTO topic_items (title, order_id, topic_id, created_by, last_modified_by)
-VALUES ('lecture 1', 1,
+INSERT INTO topic_items (title, type, order_id, topic_id, created_by, last_modified_by)
+VALUES ('lecture 1', 'LECTURE',1,
         (SELECT id FROM topics WHERE title = 'topic 1'),
         (SELECT id FROM users WHERE username = 'jcoldsun'),
         (SELECT id FROM users WHERE username = 'jcoldsun')),
-       ('recourse 1', 2,
+       ('recourse 1', 'RESOURCE',2,
         (SELECT id FROM topics WHERE title = 'topic 1'),
         (SELECT id FROM users WHERE username = 'jcoldsun'),
         (SELECT id FROM users WHERE username = 'jcoldsun')),
-       ('lecture 1', 1,
+       ('lecture 2', 'LECTURE',1,
         (SELECT id FROM topics WHERE title = 'topic 2'),
         (SELECT id FROM users WHERE username = 'jcoldsun'),
         (SELECT id FROM users WHERE username = 'jcoldsun')),
-       ('recourse 1', 2,
+       ('recourse 2', 'RESOURCE',2,
         (SELECT id FROM topics WHERE title = 'topic 2'),
         (SELECT id FROM users WHERE username = 'jcoldsun'),
-        (SELECT id FROM users WHERE username = 'jcoldsun'))
+        (SELECT id FROM users WHERE username = 'jcoldsun'));
+
+INSERT INTO lectures (item_id, video_id, created_by, last_modified_by)
+VALUES ((SELECT id FROM topic_items WHERE title = 'lecture 1'), 'ueEa6utvPrzFRgCd3hPDXJ',
+        (SELECT id FROM users WHERE username = 'jcoldsun'),
+        (SELECT id FROM users WHERE username = 'jcoldsun')),
+       ((SELECT id FROM topic_items WHERE title = 'lecture 2'), 'vc1SHgKNdMXYPsjpGSmHsH',
+        (SELECT id FROM users WHERE username = 'jcoldsun'),
+        (SELECT id FROM users WHERE username = 'jcoldsun'));
+
+INSERT INTO resources (item_id, content, created_by, last_modified_by)
+VALUES ((SELECT id FROM topic_items WHERE title = 'recourse 1'), '## Заголовок\n\nЭто **жирный** текст и _курсив_.\n\n- Пункт 1\n- Пункт 2',
+        (SELECT id FROM users WHERE username = 'jcoldsun'),
+        (SELECT id FROM users WHERE username = 'jcoldsun')),
+       ((SELECT id FROM topic_items WHERE title = 'recourse 2'), '## sdfasdfasdf\n\nЭто **жирный** текст и _курсив_.\n\n- Пункт 1\n- Пункт 2',
+        (SELECT id FROM users WHERE username = 'jcoldsun'),
+        (SELECT id FROM users WHERE username = 'jcoldsun'));

@@ -46,7 +46,8 @@ public class CourseService {
                                 topicEntity.getItems().stream()
                                         .map(item -> new TopicItemDto(
                                                 item.getId().toString(),
-                                                item.getTitle()))
+                                                item.getTitle(),
+                                                item.getType().toString()))
                                         .toList()))
                         .toList()
         );

@@ -1,10 +1,7 @@
 package by.malanka.academy.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import by.malanka.academy.dto.ItemTypeEnum;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -17,11 +14,16 @@ import java.util.UUID;
 @SuperBuilder
 @NoArgsConstructor
 @Table(name = "topic_items")
+@Inheritance(strategy = InheritanceType.JOINED)
 @EqualsAndHashCode(callSuper = false, of = "title")
 public class TopicItemEntity extends BaseEntity<UUID> {
 
     @Column(name = "title")
     private String title;
+
+    @Column(name = "type")
+    @Enumerated(EnumType.STRING)
+    private ItemTypeEnum type;
 
     @Column(name = "order_id")
     private Integer orderId;
