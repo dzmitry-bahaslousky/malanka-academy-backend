@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RequiredArgsConstructor
 @DisplayName("JSON Username Password Authentication Integration Tests")
-public class JsonUsernamePasswordAuthenticationIntegrationTest extends AbstractIntegrationTest {
+class JsonUsernamePasswordAuthenticationIntegrationTest extends AbstractIntegrationTest {
     private final MockMvc mockMvc;
 
     @Test

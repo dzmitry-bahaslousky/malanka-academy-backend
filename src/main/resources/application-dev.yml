@@ -1,12 +1,10 @@
 spring:
-  datasource:
-    username: malanka_academy
-    password: malanka_academy
   jpa:
     properties:
       hibernate:
         show_sql: true
         format_sql: true
+
 
 application:
   security:

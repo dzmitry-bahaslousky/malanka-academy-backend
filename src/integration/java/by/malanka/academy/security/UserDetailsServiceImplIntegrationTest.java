@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @RequiredArgsConstructor
 @DisplayName("User Details Service Integration Tests")
-public class UserDetailsServiceImplIntegrationTest extends AbstractIntegrationTest {
+class UserDetailsServiceImplIntegrationTest extends AbstractIntegrationTest {
     private final UserDetailsServiceImpl userDetailsService;
 
     @Test

@@ -21,7 +21,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 @ActiveProfiles("test")
 @Sql("classpath:test-data.sql")
 @SpringBootTest(classes = TestApplicationRunner.class)
-abstract public class AbstractIntegrationTest {
+public abstract class AbstractIntegrationTest {
     private static final PostgreSQLContainer<?> container = new PostgreSQLContainer<>("postgres:15-alpine");
 
     @BeforeAll
