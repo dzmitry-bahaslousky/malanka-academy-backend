@@ -1,13 +1,19 @@
-INSERT INTO users (username, email, password)
-VALUES ('jcoldsun', 'email@email.com', '{bcrypt}$2a$12$V4vh7Hd/oTT9YYkbY.b5zuHoLbZCNB9PVfQMOr2w40OB.HtYPC.Da'),
-       ('test', 'email1@email.com', '{bcrypt}$2a$12$V4vh7Hd/oTT9YYkbY.b5zuHoLbZCNB9PVfQMOr2w40OB.HtYPC.Da');
+INSERT INTO users (first_name, last_name, username, email, password)
+VALUES ('Dzmitry', 'Bahaslouski', 'jcoldsun', 'email@email.com', '{bcrypt}$2a$12$V4vh7Hd/oTT9YYkbY.b5zuHoLbZCNB9PVfQMOr2w40OB.HtYPC.Da'),
+       ('Testing', 'Test', 'test', 'email1@email.com', '{bcrypt}$2a$12$V4vh7Hd/oTT9YYkbY.b5zuHoLbZCNB9PVfQMOr2w40OB.HtYPC.Da');
 
 INSERT INTO users_roles (user_id, role_id)
 VALUES ((SELECT id FROM users WHERE username = 'jcoldsun'), (SELECT id FROM roles WHERE name = 'ROLE_ADMIN')),
        ((SELECT id FROM users WHERE username = 'test'), (SELECT id FROM roles WHERE name = 'ROLE_USER'));
 
-INSERT INTO courses (id, title, description, created_by, last_modified_by)
+INSERT INTO categories (name, created_by, last_modified_by)
+VALUES ('Java', (SELECT id FROM users WHERE username = 'jcoldsun'), (SELECT id FROM users WHERE username = 'jcoldsun'));
+
+INSERT INTO courses (id, title, description, author_id, category_id, level, created_by, last_modified_by)
 VALUES ('3c91cc57-298a-4e88-9b40-a52d4720bb93', 'test', 'test desc',
+        (SELECT id FROM users WHERE username = 'jcoldsun'),
+        (SELECT id FROM categories WHERE name = 'Java'),
+        'BEGINNER',
         (SELECT id FROM users WHERE username = 'jcoldsun'),
         (SELECT id FROM users WHERE username = 'jcoldsun'));
 

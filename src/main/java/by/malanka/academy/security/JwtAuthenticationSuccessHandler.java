@@ -1,6 +1,6 @@
 package by.malanka.academy.security;
 
-import by.malanka.academy.dto.LoginResponseDto;
+import by.malanka.academy.dto.AuthTokenResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,7 +33,7 @@ public class JwtAuthenticationSuccessHandler implements AuthenticationSuccessHan
             Authentication authentication) throws IOException {
         String accessToken = jwtGeneratorService.generate(authentication);
         String refreshToken = refreshTokenProviderService.generate(accessToken);
-        LoginResponseDto loginResponseDto = new LoginResponseDto(accessToken, refreshToken);
+        AuthTokenResponseDto loginResponseDto = new AuthTokenResponseDto(accessToken, refreshToken);
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.getWriter().write(objectMapper.writeValueAsString(loginResponseDto));

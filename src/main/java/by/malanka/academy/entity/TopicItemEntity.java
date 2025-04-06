@@ -2,34 +2,33 @@ package by.malanka.academy.entity;
 
 import by.malanka.academy.dto.ItemTypeEnum;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-import java.util.UUID;
-
-@Data
+@Getter
+@Setter
 @Entity
-@SuperBuilder
-@NoArgsConstructor
 @Table(name = "topic_items")
 @Inheritance(strategy = InheritanceType.JOINED)
 @EqualsAndHashCode(callSuper = false, of = "title")
-public class TopicItemEntity extends BaseEntity<UUID> {
+public class TopicItemEntity extends AuditEntity {
 
-    @Column(name = "title")
+    @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "type")
     @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false)
     private ItemTypeEnum type;
 
-    @Column(name = "order_id")
+    @Column(name = "order_id", nullable = false)
     private Integer orderId;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "topic_id")
-    @ManyToOne(optional = false)
     private TopicEntity topic;
 
 }

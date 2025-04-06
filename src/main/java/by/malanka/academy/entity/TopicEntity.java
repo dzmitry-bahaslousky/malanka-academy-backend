@@ -1,44 +1,33 @@
 package by.malanka.academy.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OrderBy;
-import jakarta.persistence.Table;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
-@SuperBuilder
-@NoArgsConstructor
 @Table(name = "topics")
-@EqualsAndHashCode(callSuper = false, of = "title")
-public class TopicEntity extends BaseEntity<UUID> {
+public class TopicEntity extends AuditEntity {
 
-    @Column(name = "title")
+    @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "order_id")
+    @Column(name = "order_id", nullable = false)
     private Integer orderId;
 
-    @JoinColumn(name = "course_id")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "course_id")
     private CourseEntity course;
 
-    @Builder.Default
     @OrderBy("orderId")
     @OneToMany(mappedBy = "topic")
-    private List<TopicItemEntity> items = new ArrayList<>();
+    private Set<TopicItemEntity> topicItems = new LinkedHashSet<>();
 
 }

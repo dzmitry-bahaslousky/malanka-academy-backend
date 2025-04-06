@@ -52,13 +52,14 @@ class UserDetailsServiceImplTest {
     }
 
     private UserEntity buildUserEntity() {
-        return UserEntity.builder()
-                .username("username")
-                .password("password")
-                .roles(Set.of(RoleEntity.builder()
-                        .name("USER")
-                        .build()))
-                .build();
+        RoleEntity roleEntity = new RoleEntity();
+        roleEntity.setName("USER");
+
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUsername("username");
+        userEntity.setPassword("password");
+        userEntity.setRoles(Set.of(roleEntity));
+        return userEntity;
     }
 
 }

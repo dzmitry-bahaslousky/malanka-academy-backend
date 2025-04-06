@@ -1,37 +1,56 @@
 package by.malanka.academy.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OrderBy;
-import jakarta.persistence.Table;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.math.BigDecimal;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
-@SuperBuilder
-@NoArgsConstructor
 @Table(name = "courses")
-@EqualsAndHashCode(callSuper = false, of = "title")
-public class CourseEntity extends AuditEntity<UUID> {
-
-    @Column(name = "title")
+public class CourseEntity extends AuditEntity {
+    
+    @Column(name = "title", nullable = false)
     private String title;
-
-    @Column(name = "description")
+    
+    @Column(name = "description", nullable = false)
     private String description;
 
-    @Builder.Default
-    @OrderBy("orderId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "author_id")
+    private UserEntity author;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "category_id")
+    private CategoryEntity category;
+    
+    @Column(name = "level", nullable = false)
+    private String level;
+
+    @Column(name = "duration")
+    private String duration;
+
+    @Column(name = "price", precision = 10, scale = 2)
+    private BigDecimal price;
+
+    @Column(name = "rating", precision = 1, scale = 2)
+    private BigDecimal rating;
+
+    @Column(name = "enrolled_students")
+    private Integer enrolledStudents;
+
+    @Column(name = "img")
+    private String img;
+
     @OneToMany(mappedBy = "course")
-    private List<TopicEntity> topics = new ArrayList<>();
+    private Set<TopicEntity> topics = new LinkedHashSet<>();
 
 }

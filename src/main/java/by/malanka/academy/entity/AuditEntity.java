@@ -2,23 +2,22 @@ package by.malanka.academy.entity;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@SuperBuilder
+@Getter
+@Setter
 @MappedSuperclass
-@NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public abstract class AuditEntity<T extends Serializable> extends BaseEntity<T> {
+public class AuditEntity extends BasicEntity {
 
     @CreatedDate
     private LocalDateTime createdAt;

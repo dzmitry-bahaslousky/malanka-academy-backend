@@ -19,6 +19,11 @@ configurations {
     }
 }
 
+val versions = mapOf(
+    "mapstruct" to "1.6.0",
+    "lombokMapstructBinding" to "0.2.0"
+)
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -33,6 +38,10 @@ dependencies {
 
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
+
+    compileOnly("org.mapstruct:mapstruct:${versions["mapstruct"]}")
+    annotationProcessor("org.mapstruct:mapstruct-processor:${versions["mapstruct"]}")
+    annotationProcessor("org.projectlombok:lombok-mapstruct-binding:${versions["lombokMapstructBinding"]}")
 
     developmentOnly("org.springframework.boot:spring-boot-docker-compose")
 

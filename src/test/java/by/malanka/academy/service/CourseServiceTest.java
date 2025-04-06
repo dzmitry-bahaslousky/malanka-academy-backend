@@ -5,6 +5,7 @@ import by.malanka.academy.dto.course.CourseDetailsDto;
 import by.malanka.academy.dto.course.CoursePreviewDto;
 import by.malanka.academy.entity.CourseEntity;
 import by.malanka.academy.exception.ResourceNotFoundException;
+import by.malanka.academy.mapper.CourseMapperImpl;
 import by.malanka.academy.repository.CourseRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -37,6 +38,9 @@ class CourseServiceTest {
     @Mock
     private CourseRepository courseRepository;
 
+    @Mock
+    private CourseMapperImpl courseMapper;
+
     @Nested
     @DisplayName("getCourses method tests")
     class GetCoursesTests {
@@ -48,6 +52,7 @@ class CourseServiceTest {
                     .limit(5)
                     .toList();
             when(courseRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(courses));
+            when(courseMapper.toPreviewDto(any(CourseEntity.class))).thenReturn(mock(CoursePreviewDto.class));
 
             PageWrapper<CoursePreviewDto> pageWrapper = courseService.getCourses(mock(Pageable.class));
 
@@ -76,6 +81,7 @@ class CourseServiceTest {
         @DisplayName("when return existing course")
         void whenReturnExistingCourse() {
             when(courseRepository.findById(any(UUID.class))).thenReturn(Optional.of(createCourseEntity()));
+            when(courseMapper.toDetailsDto(any(CourseEntity.class))).thenReturn(mock(CourseDetailsDto.class));
 
             CourseDetailsDto courseDetails = courseService.getCourseDetails(UUID.randomUUID().toString());
 
@@ -95,11 +101,11 @@ class CourseServiceTest {
     }
 
     private static CourseEntity createCourseEntity() {
-        return CourseEntity.builder()
-                .id(UUID.randomUUID())
-                .title("title")
-                .description("description")
-                .build();
+        CourseEntity courseEntity = new CourseEntity();
+        courseEntity.setId(UUID.randomUUID());
+        courseEntity.setTitle("title");
+        courseEntity.setDescription("description");
+        return courseEntity;
     }
 
 }

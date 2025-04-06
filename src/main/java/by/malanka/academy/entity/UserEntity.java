@@ -1,40 +1,35 @@
 package by.malanka.academy.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.UUID;
 
-@Data
+@Getter
+@Setter
 @Entity
-@SuperBuilder
-@NoArgsConstructor
 @Table(name = "users")
-@EqualsAndHashCode(callSuper = false, of = "username")
-public class UserEntity extends BaseEntity<UUID> {
+public class UserEntity extends AuditEntity {
 
-    @Column(name = "username")
+    @Column(name = "username", nullable = false)
     private String username;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "is_active")
-    private Boolean isActive;
+    @Column(name = "avatar")
+    private String avatar;
+
+    @Column(name = "bio")
+    private String bio;
+
+    @Column(name = "is_active", nullable = false)
+    private Boolean isActive = false;
 
     @ManyToMany
     @JoinTable(
@@ -42,7 +37,6 @@ public class UserEntity extends BaseEntity<UUID> {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    @Builder.Default
-    private Set<RoleEntity> roles = new HashSet<>();
+    private Set<RoleEntity> roles = new LinkedHashSet<>();
 
 }
