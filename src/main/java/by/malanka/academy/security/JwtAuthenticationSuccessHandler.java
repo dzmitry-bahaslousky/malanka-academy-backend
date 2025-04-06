@@ -14,15 +14,11 @@ import java.io.IOException;
 
 @Component
 public class JwtAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
-    private final JwtGeneratorService jwtGeneratorService;
-    private final RefreshTokenProviderService refreshTokenProviderService;
+    private final AuthTokenGenerationService authTokenGenerationService;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public JwtAuthenticationSuccessHandler(
-            RefreshTokenProviderService refreshTokenProviderService,
-            JwtGeneratorService jwtGeneratorService) {
-        this.refreshTokenProviderService = refreshTokenProviderService;
-        this.jwtGeneratorService = jwtGeneratorService;
+    public JwtAuthenticationSuccessHandler(AuthTokenGenerationService authTokenGenerationService) {
+        this.authTokenGenerationService = authTokenGenerationService;
         objectMapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
     }
 
@@ -31,9 +27,7 @@ public class JwtAuthenticationSuccessHandler implements AuthenticationSuccessHan
             HttpServletRequest request,
             HttpServletResponse response,
             Authentication authentication) throws IOException {
-        String accessToken = jwtGeneratorService.generate(authentication);
-        String refreshToken = refreshTokenProviderService.generate(accessToken);
-        AuthTokenResponseDto loginResponseDto = new AuthTokenResponseDto(accessToken, refreshToken);
+        AuthTokenResponseDto loginResponseDto = authTokenGenerationService.generate(authentication);
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.getWriter().write(objectMapper.writeValueAsString(loginResponseDto));

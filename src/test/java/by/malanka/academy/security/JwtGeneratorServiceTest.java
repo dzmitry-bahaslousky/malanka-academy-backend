@@ -8,7 +8,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -20,9 +20,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("JWT Generator Service Tests")
@@ -46,10 +44,10 @@ class JwtGeneratorServiceTest {
     @Test
     @DisplayName("test jwt claims keys")
     void testGenerateTokenClaims() {
-        Authentication mockAuthentication = mockAuthentication();
+        UserDetails userDetails = mockUserDetails();
         mockJwtEncoderGetTokenValue();
 
-        jwtGeneratorService.generate(mockAuthentication);
+        jwtGeneratorService.generate(userDetails);
 
         verify(jwtEncoder).encode(jwtEncoderParametersCaptor.capture());
         assertJwtClaimsKeys(jwtEncoderParametersCaptor.getValue().getClaims());
@@ -58,20 +56,20 @@ class JwtGeneratorServiceTest {
     @Test
     @DisplayName("test jwt lifetime")
     void testGenerateTokenLifetime() {
-        Authentication mockAuthentication = mockAuthentication();
+        UserDetails userDetails = mockUserDetails();
         mockJwtEncoderGetTokenValue();
 
-        jwtGeneratorService.generate(mockAuthentication);
+        jwtGeneratorService.generate(userDetails);
 
         verify(jwtEncoder).encode(jwtEncoderParametersCaptor.capture());
         assertJwtLifetime(jwtEncoderParametersCaptor.getValue().getClaims());
     }
 
-    private Authentication mockAuthentication() {
-        Authentication mockAuthentication = mock(Authentication.class);
-        when(mockAuthentication.getName()).thenReturn("name");
-        when(mockAuthentication.getAuthorities()).thenReturn(List.of());
-        return mockAuthentication;
+    private UserDetails mockUserDetails() {
+        UserDetails userDetails = mock(UserDetails.class);
+        when(userDetails.getUsername()).thenReturn("name");
+        when(userDetails.getAuthorities()).thenReturn(List.of());
+        return userDetails;
     }
 
     private void mockJwtEncoderGetTokenValue() {

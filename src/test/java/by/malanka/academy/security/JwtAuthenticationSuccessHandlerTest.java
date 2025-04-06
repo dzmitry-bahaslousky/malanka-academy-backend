@@ -1,5 +1,6 @@
 package by.malanka.academy.security;
 
+import by.malanka.academy.dto.AuthTokenResponseDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,7 +18,6 @@ import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -29,10 +29,7 @@ class JwtAuthenticationSuccessHandlerTest {
     private JwtAuthenticationSuccessHandler jwtAuthenticationSuccessHandler;
 
     @Mock
-    private JwtGeneratorService jwtGeneratorService;
-
-    @Mock
-    private RefreshTokenProviderService refreshTokenProviderService;
+    private AuthTokenGenerationService authTokenGenerationService;
 
     @Test
     @DisplayName("test response media type")
@@ -51,8 +48,8 @@ class JwtAuthenticationSuccessHandlerTest {
     @Test
     @DisplayName("test response body")
     void testResponseBody() throws IOException {
-        when(jwtGeneratorService.generate(any(Authentication.class))).thenReturn("accessToken");
-        when(refreshTokenProviderService.generate(anyString())).thenReturn("refreshToken");
+        when(authTokenGenerationService.generate(any(Authentication.class)))
+                .thenReturn(new AuthTokenResponseDto("accessToken", "refreshToken"));
         MockHttpServletResponse mockHttpServletResponse = new MockHttpServletResponse();
 
         jwtAuthenticationSuccessHandler.onAuthenticationSuccess(

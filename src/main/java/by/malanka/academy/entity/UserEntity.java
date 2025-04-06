@@ -13,6 +13,12 @@ import java.util.Set;
 @Table(name = "users")
 public class UserEntity extends AuditEntity {
 
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
+
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
+
     @Column(name = "username", nullable = false)
     private String username;
 

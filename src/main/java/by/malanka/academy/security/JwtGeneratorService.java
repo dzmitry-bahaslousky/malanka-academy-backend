@@ -1,8 +1,8 @@
 package by.malanka.academy.security;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
@@ -23,27 +23,27 @@ public class JwtGeneratorService {
         this.tokenValidityInSeconds = tokenValidityInSeconds;
     }
 
-    public String generate(Authentication authentication) {
-        JwtClaimsSet claims = buildJwtClaims(authentication);
+    public String generate(UserDetails userDetails) {
+        JwtClaimsSet claims = buildJwtClaims(userDetails);
         JwtEncoderParameters from = JwtEncoderParameters.from(claims);
         return jwtEncoder.encode(from).getTokenValue();
     }
 
-    private JwtClaimsSet buildJwtClaims(Authentication authentication) {
-        String roles = fetchRolesFromAuthentication(authentication);
+    private JwtClaimsSet buildJwtClaims(UserDetails userDetails) {
+        String roles = fetchRolesFromAuthentication(userDetails);
 
         Instant issuedAt = Instant.now();
         return JwtClaimsSet.builder()
                 .issuer("self")
-                .subject(authentication.getName())
+                .subject(userDetails.getUsername())
                 .issuedAt(issuedAt)
                 .expiresAt(issuedAt.plusSeconds(tokenValidityInSeconds))
                 .claim("roles", roles)
                 .build();
     }
 
-    private static String fetchRolesFromAuthentication(Authentication authentication) {
-        return authentication.getAuthorities().stream()
+    private static String fetchRolesFromAuthentication(UserDetails userDetails) {
+        return userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(" "));
     }

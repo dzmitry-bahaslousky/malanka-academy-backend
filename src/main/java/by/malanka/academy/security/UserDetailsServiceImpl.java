@@ -1,12 +1,9 @@
 package by.malanka.academy.security;
 
-import by.malanka.academy.entity.RoleEntity;
-import by.malanka.academy.entity.UserEntity;
+import by.malanka.academy.mapper.UserMapper;
 import by.malanka.academy.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,20 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        UserEntity userEntity = userRepository.findByUsername(username)
+        return userRepository.findByUsername(username)
+                .map(userMapper::toUserDetails)
                 .orElseThrow(() -> throwUsernameNotFoundException(username));
-        return new User(
-                userEntity.getUsername(),
-                userEntity.getPassword(),
-                userEntity.getIsActive(),
-                true,
-                true,
-                true,
-                userEntity.getRoles().stream().map(RoleEntity::getName).map(SimpleGrantedAuthority::new).toList()
-        );
     }
 
     private UsernameNotFoundException throwUsernameNotFoundException(String username) {
